@@ -47,6 +47,11 @@ body{
     margin: 10px;
 }
 
+#challange3_game_container h1{
+    height: 100%;
+    padding: 20% 0;
+}
+
 #challange3_game_container img:hover{
     -webkit-box-shadow: 0px 0px 5px 10px rgba(0,238,255,1);
     -moz-box-shadow: 0px 0px 5px 10px rgba(0,238,255,1);

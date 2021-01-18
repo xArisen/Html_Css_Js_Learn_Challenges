@@ -47,17 +47,34 @@ const restartChallange3 = () => {
     document.getElementById("scissors").src = SCISSORS_IMG_SRC;
 }
 
-const playRPS = (playerSelect) => {
+const playRPS = (playerChoice) => {
     const COMPUTER_CHOICES = ['rock', 'paper', 'scissors'];
-    const winner_div = document.getElementById("challange3_winner");
+    const player_div = document.getElementById("challange3_player");
     const result_div = document.getElementById("challange3_result");
-    const loser_div = document.getElementById("challange3_loser");
-    let computerChoice = COMPUTER_CHOICES[Math.floor(Math.random() * ((2 - 0 + 1) + 0))];
-    let playerChoice = playerSelect.id;
-    let result = computeWinner(playerChoice, computerChoice);
+    const computer_div = document.getElementById("challange3_computer");
+    let computerChoice = document.getElementById(COMPUTER_CHOICES[Math.floor(Math.random() * ((2 - 0 + 1) + 0))]);
+    let result = computeWinner(playerChoice.id, computerChoice.id);
     let finalMessage = computeMessage(result);
-    console.log(result);
-    console.log(finalMessage);
+    
+    removeImages();
+
+    let player_img = document.createElement('img');
+    player_img.setAttribute('id', playerChoice.id);
+    player_img.setAttribute('src', playerChoice.src);
+    player_div.appendChild(player_img);
+
+    let result_h1 = document.createElement('h1');
+    result_h1.setAttribute('id', 'result_h1');
+    result_h1.style.color = finalMessage.color;
+    let textResponse = document.createTextNode(finalMessage.text);
+    result_h1.appendChild(textResponse);
+    result_div.appendChild(result_h1);
+
+    let computer_img = document.createElement('img');
+    computer_img.setAttribute('id', computerChoice.id);
+    computer_img.setAttribute('src', computerChoice.src);
+    computer_img.style.hover
+    computer_div.appendChild(computer_img);
 }
 
 const computeWinner = (playerChoice, computerChoice) => {
@@ -95,15 +112,15 @@ const computeMessage = (result) => {
     const messages = {
         'win': {
             'text': 'You won!',
-            'colour': 'green'
+            'color': 'green'
         },
         'tie': {
             'text': 'Tie!',
-            'colour': 'yellow'
+            'color': 'black'
         },
         'lose': {
             'text': 'You lost',
-            'colour': 'red'
+            'color': 'red'
         }
     };
 
@@ -113,4 +130,11 @@ const computeMessage = (result) => {
         return  messages['tie'];
     else if(JSON.stringify(result)==JSON.stringify([0, 1]))
         return  messages['lose'];
+}
+
+
+const removeImages = () => {
+    document.getElementById("rock").remove();
+    document.getElementById("paper").remove();
+    document.getElementById("scissors").remove();
 }
