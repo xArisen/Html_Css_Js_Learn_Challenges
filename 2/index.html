@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenges</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="scripts/app.js"></script>
+</head>
+<body>
+    <div id="content">
+        <div class="challange_box">
+            <div class="challange_title">
+                <h1>Challenge 1: Your Age in Days</h1>
+            </div>
+
+            <div class="box_container">
+                <button type="button" class="btn btn-primary" onclick="ageInDays()">Click me</button>
+                <button type="button" class="btn btn-danger" onclick="deleteResult()">Reset</button>
+            </div>
+
+            <div class="box_container">
+                <div class="result" id="challange1_result"></div>
+            </div>
+        </div>
+
+        <div class="challange_box">
+            <div class="challange_title">
+                <h1>Challenge 2: Cat Generator</h1>
+            </div>
+
+            <div class="box_container">
+                <button type="button" class="btn btn-success" onclick="generateCat()">Generate Cat</button>
+            </div>
+
+            <div class="box_container">
+                <div id="challange2_result"></div>
+            </div>
+        </div>
+
+        <div class="challange_box">
+            <div class="challange_title">
+                <h1>Challenge 3: Rock, Paper, Scissors</h1>
+            </div>
+
+            <div class="box_container">
+                <div id="challange3_game_container">
+                    <div id="challange3_winner">
+                        <img id="rock" src="https://images.pexels.com/photos/861034/pexels-photo-861034.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Rock" onclick="playRPS(this)">
+                    </div>
+                    <div id="challange3_result">
+                        <img id="paper" src="https://images.pexels.com/photos/479444/pexels-photo-479444.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Paper" onclick="playRPS(this)">
+                    </div>
+                    <div id="challange3_loser">
+                        <img id="scissors" src="https://images.pexels.com/photos/4226910/pexels-photo-4226910.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Scissors" onclick="playRPS(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
