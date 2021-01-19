@@ -36,72 +36,114 @@ const generateCat = function() {
     document.getElementById('challange2_result').appendChild(div);
 }
 
+
+//Challange3
+
 let ROCK_IMG_SRC;
 let PAPER_IMG_SRC;
 let SCISSORS_IMG_SRC;
 
-//Challange3
-const restartChallange3 = () => {
-    const player_div = document.getElementById("challange3_player");
-    const result_div = document.getElementById("challange3_result");
-    const computer_div = document.getElementById("challange3_computer");
+let player_div;
+let result_div;
+let computer_div;
 
-    player_div.innerHTML = "";
-    result_div.innerHTML = "";
-    computer_div.innerHTML = "";
+let rock_img;
+let paper_img;
+let scissors_img;
 
-    let rock_img = document.createElement('img');
-    rock_img.setAttribute('id', 'rock');
-    rock_img.setAttribute('onclick', 'playRPS(this)');
-    rock_img.src = ROCK_IMG_SRC;
-    player_div.appendChild(rock_img);
+let player_img;
+let result_h1;
+let computer_img;
 
-    let paper_img = document.createElement('img');
-    paper_img.setAttribute('id', 'paper');
-    paper_img.setAttribute('onclick', 'playRPS(this)');
-    paper_img.src = PAPER_IMG_SRC;
-    result_div.appendChild(paper_img);
+const COMPUTER_CHOICES = ['rock', 'paper', 'scissors'];
+const messages = {
+    'win': {
+        'text': 'You won!',
+        'color': 'green'
+    },
+    'tie': {
+        'text': 'Tie!',
+        'color': 'black'
+    },
+    'lose': {
+        'text': 'You lost!',
+        'color': 'red'
+    }
+};
 
-    let scissors_img = document.createElement('img');
-    scissors_img.setAttribute('id', 'scissors');
-    scissors_img.setAttribute('onclick', 'playRPS(this)');
-    scissors_img.src = SCISSORS_IMG_SRC;
-    computer_div.appendChild(scissors_img);
-}
+// Need to be used at end of html file
+const onStartChallange3SetUp = () =>{
+    //const variables
+    player_div = document.getElementById("challange3_player");
+    result_div = document.getElementById("challange3_result");
+    computer_div = document.getElementById("challange3_computer");
 
-const playRPS = (playerChoice) => {
     ROCK_IMG_SRC = document.getElementById("rock").src;
     PAPER_IMG_SRC = document.getElementById("paper").src;
     SCISSORS_IMG_SRC = document.getElementById("scissors").src;
 
-    const COMPUTER_CHOICES = ['rock', 'paper', 'scissors'];
-    const player_div = document.getElementById("challange3_player");
-    const result_div = document.getElementById("challange3_result");
-    const computer_div = document.getElementById("challange3_computer");
+    //const choose images
+    rock_img = document.createElement('img');
+    rock_img.setAttribute('id', 'rock');
+    rock_img.setAttribute('onclick', 'playRPS(this)');
+    rock_img.src = ROCK_IMG_SRC;
+
+    paper_img = document.createElement('img');
+    paper_img.setAttribute('id', 'paper');
+    paper_img.setAttribute('onclick', 'playRPS(this)');
+    paper_img.src = PAPER_IMG_SRC;
+
+    scissors_img = document.createElement('img');
+    scissors_img.setAttribute('id', 'scissors');
+    scissors_img.setAttribute('onclick', 'playRPS(this)');
+    scissors_img.src = SCISSORS_IMG_SRC;
+
+    //const result images
+    player_img = document.createElement('img');
+    player_img.style = "-webkit-box-shadow: 0px 0px 10px 6px rgba(0,85,255,1)";
+
+    result_h1 = document.createElement('h1');
+    result_h1.setAttribute('id', 'result_h1');
+    result_h1.style.cursor = 'pointer';
+    result_h1.setAttribute('onclick', 'restartChallange3()');
+
+    computer_img = document.createElement('img');
+    computer_img.style = "-webkit-box-shadow: 0px 0px 10px 6px rgba(255,0,0,1)";
+}
+
+const restartChallange3 = () => {
+    removeImages();
+    setUpStartingImages();
+}
+
+const setUpStartingImages = () => {
+    player_div.appendChild(rock_img);
+    result_div.appendChild(paper_img);
+    computer_div.appendChild(scissors_img);
+}
+
+const playRPS = (playerChoice) => {
     let computerChoice = document.getElementById(COMPUTER_CHOICES[Math.floor(Math.random() * ((2 - 0 + 1) + 0))]);
     let result = computeWinner(playerChoice.id, computerChoice.id);
     let finalMessage = computeMessage(result);
     
     removeImages();
+    setUpResult(playerChoice, computerChoice, finalMessage);
+}
 
-    let player_img = document.createElement('img');
+const setUpResult = (playerChoice, computerChoice, finalMessage) => {
     player_img.setAttribute('id', playerChoice.id);
     player_img.setAttribute('src', playerChoice.src);
-    player_img.style = "-webkit-box-shadow: 0px 0px 10px 6px rgba(0,85,255,1)";
-    player_div.appendChild(player_img);
-
-    let result_h1 = document.createElement('h1');
-    result_h1.setAttribute('id', 'result_h1');
-    result_h1.style.color = finalMessage.color;
-    result_h1.setAttribute('onclick', 'restartChallange3()');
-    let textResponse = document.createTextNode(finalMessage.text);
-    result_h1.appendChild(textResponse);
-    result_div.appendChild(result_h1);
-
-    let computer_img = document.createElement('img');
     computer_img.setAttribute('id', computerChoice.id);
     computer_img.setAttribute('src', computerChoice.src);
-    computer_img.style = "-webkit-box-shadow: 0px 0px 10px 6px rgba(255,0,0,1)";
+
+    result_h1.innerHTML = "";
+    let textResponse = document.createTextNode(finalMessage.text);
+    result_h1.style.color = finalMessage.color;
+    result_h1.appendChild(textResponse);
+
+    player_div.appendChild(player_img);
+    result_div.appendChild(result_h1);
     computer_div.appendChild(computer_img);
 }
 
@@ -137,21 +179,6 @@ const computeWinner = (playerChoice, computerChoice) => {
 }
 
 const computeMessage = (result) => {
-    const messages = {
-        'win': {
-            'text': 'You won!',
-            'color': 'green'
-        },
-        'tie': {
-            'text': 'Tie!',
-            'color': 'black'
-        },
-        'lose': {
-            'text': 'You lost',
-            'color': 'red'
-        }
-    };
-
     if(JSON.stringify(result)==JSON.stringify([1, 0]))
         return  messages['win'];
     else if(JSON.stringify(result)==JSON.stringify([1, 1]))
@@ -162,7 +189,7 @@ const computeMessage = (result) => {
 
 
 const removeImages = () => {
-    document.getElementById("rock").remove();
-    document.getElementById("paper").remove();
-    document.getElementById("scissors").remove();
+    player_div.innerHTML = "";
+    result_div.innerHTML = "";
+    computer_div.innerHTML = "";
 }
