@@ -36,18 +36,44 @@ const generateCat = function() {
     document.getElementById('challange2_result').appendChild(div);
 }
 
+let ROCK_IMG_SRC;
+let PAPER_IMG_SRC;
+let SCISSORS_IMG_SRC;
+
 //Challange3
 const restartChallange3 = () => {
-    const ROCK_IMG_SRC = "https://images.pexels.com/photos/861034/pexels-photo-861034.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
-    const PAPER_IMG_SRC = "https://images.pexels.com/photos/479444/pexels-photo-479444.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
-    const SCISSORS_IMG_SRC = "https://images.pexels.com/photos/4226910/pexels-photo-4226910.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
-    
-    document.getElementById("rock").src = ROCK_IMG_SRC;
-    document.getElementById("paper").src = PAPER_IMG_SRC;
-    document.getElementById("scissors").src = SCISSORS_IMG_SRC;
+    const player_div = document.getElementById("challange3_player");
+    const result_div = document.getElementById("challange3_result");
+    const computer_div = document.getElementById("challange3_computer");
+
+    player_div.innerHTML = "";
+    result_div.innerHTML = "";
+    computer_div.innerHTML = "";
+
+    let rock_img = document.createElement('img');
+    rock_img.setAttribute('id', 'rock');
+    rock_img.setAttribute('onclick', 'playRPS(this)');
+    rock_img.src = ROCK_IMG_SRC;
+    player_div.appendChild(rock_img);
+
+    let paper_img = document.createElement('img');
+    paper_img.setAttribute('id', 'paper');
+    paper_img.setAttribute('onclick', 'playRPS(this)');
+    paper_img.src = PAPER_IMG_SRC;
+    result_div.appendChild(paper_img);
+
+    let scissors_img = document.createElement('img');
+    scissors_img.setAttribute('id', 'scissors');
+    scissors_img.setAttribute('onclick', 'playRPS(this)');
+    scissors_img.src = SCISSORS_IMG_SRC;
+    computer_div.appendChild(scissors_img);
 }
 
 const playRPS = (playerChoice) => {
+    ROCK_IMG_SRC = document.getElementById("rock").src;
+    PAPER_IMG_SRC = document.getElementById("paper").src;
+    SCISSORS_IMG_SRC = document.getElementById("scissors").src;
+
     const COMPUTER_CHOICES = ['rock', 'paper', 'scissors'];
     const player_div = document.getElementById("challange3_player");
     const result_div = document.getElementById("challange3_result");
@@ -61,11 +87,13 @@ const playRPS = (playerChoice) => {
     let player_img = document.createElement('img');
     player_img.setAttribute('id', playerChoice.id);
     player_img.setAttribute('src', playerChoice.src);
+    player_img.style = "-webkit-box-shadow: 0px 0px 10px 6px rgba(0,85,255,1)";
     player_div.appendChild(player_img);
 
     let result_h1 = document.createElement('h1');
     result_h1.setAttribute('id', 'result_h1');
     result_h1.style.color = finalMessage.color;
+    result_h1.setAttribute('onclick', 'restartChallange3()');
     let textResponse = document.createTextNode(finalMessage.text);
     result_h1.appendChild(textResponse);
     result_div.appendChild(result_h1);
@@ -73,7 +101,7 @@ const playRPS = (playerChoice) => {
     let computer_img = document.createElement('img');
     computer_img.setAttribute('id', computerChoice.id);
     computer_img.setAttribute('src', computerChoice.src);
-    computer_img.style.hover
+    computer_img.style = "-webkit-box-shadow: 0px 0px 10px 6px rgba(255,0,0,1)";
     computer_div.appendChild(computer_img);
 }
 
