@@ -58,9 +58,44 @@
                 </div>
             </div>
         </div>
+        <div class="challange_box">
+            <div class="challange_title">
+                <h1>Challenge 4: Change the Color of All Buttons</h1>
+            </div>
+
+            <div class="box_container">
+                <div id="challange4_container">
+                    <div class="challange4_buttons">
+                        <form action>
+                            <select name="backdrop" id="buttons_background_backdrop" onchange="buttonColorChange(this)">
+                                <option value="random">Random</option>
+                                <option value="blue">Blue</option>
+                                <option value="red">Red</option>
+                                <option value="yellow">Yellow</option>
+                                <option value="green">Green</option>
+                                <option value="reset">Reset</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="challange4_buttons">
+                        <button type="button" class="btn btn-primary">Wee!</button>
+                    </div>
+                    <div class="challange4_buttons">
+                        <button type="button" class="btn btn-danger">Yahoo!</button>
+                    </div>
+                    <div class="challange4_buttons">
+                        <button type="button" class="btn btn-warning">Google!</button>
+                    </div>
+                    <div class="challange4_buttons">
+                        <button type="button" class="btn btn-success">Facebook!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         onStartChallange3SetUp();
+        onStartChallange4SetUp();
     </script>
 </body>
 </html>

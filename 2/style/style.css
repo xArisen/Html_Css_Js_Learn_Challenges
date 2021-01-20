@@ -30,9 +30,10 @@ body{
     padding: 10px 0px;
     justify-content: space-evenly;
     width: 100%;
+    flex-direction: row;
 }
 
-#challange3_game_container{
+#challange3_game_container, #challange4_container{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;

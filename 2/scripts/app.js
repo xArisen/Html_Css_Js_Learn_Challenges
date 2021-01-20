@@ -59,7 +59,7 @@ const COMPUTER_CHOICES = ['rock', 'paper', 'scissors'];
 const messages = {
     'win': {
         'text': 'You won!',
-        'color': 'green'
+        'color': 'blue'
     },
     'tie': {
         'text': 'Tie!',
@@ -193,3 +193,76 @@ const removeImages = () => {
     result_div.innerHTML = "";
     computer_div.innerHTML = "";
 }
+
+//Challange 4
+
+let allButtons = [];
+let buttonsBSClasses = [];
+const BUTTON_COLOR_CLASSES = {
+    'blue' : 'btn-primary',
+    'red' : 'btn-danger',
+    'yellow' : 'btn-warning',
+    'green' : 'btn-success',
+    '0' : 'btn-primary',
+    '1' : 'btn-danger',
+    '2' : 'btn-warning',
+    '3' : 'btn-success'
+}
+
+// Need to be used at end of html file
+const onStartChallange4SetUp = () =>{
+    allButtons = document.getElementsByTagName('button');
+
+    for(let i = 0; i < allButtons.length; i++){
+        buttonsBSClasses.push(getButtonBSClass(allButtons[i].className));
+    }
+}
+
+const buttonColorChange = (button) => {
+    removeButtonsBSClasses();
+    
+    if(button.value == 'reset'){
+        resetAllButtonsBSClasses();
+    }
+    else if(button.value == 'random'){
+        setRandomBSClassesForAllButtons();
+    }
+    else{
+        setAllButtonsBSClass(BUTTON_COLOR_CLASSES[button.value]);
+    }
+}
+
+const getButtonBSClass = (className) => {
+    let type = className.substring(className.indexOf('-')-3, className.length);
+    return type;
+}
+
+const removeButtonsBSClasses = () => {
+    for(let i = 0; i < allButtons.length; i++){
+        removeClassByPrefix(allButtons[i], 'btn-')
+    }
+}
+
+const removeClassByPrefix = (el, prefix) => {
+    let regx = new RegExp('\\b' + prefix + '.*?\\b', 'g');
+    el.className = el.className.replace(regx, '');
+}
+
+const setAllButtonsBSClass = (buttonBSClass) => {
+    for(let i = 0; i < allButtons.length ; i++){
+        allButtons[i].classList.add(buttonBSClass);
+    }
+}
+
+const setRandomBSClassesForAllButtons = () => {
+    for(let i = 0; i < allButtons.length ; i++){
+        allButtons[i].classList.add(BUTTON_COLOR_CLASSES[Math.floor(Math.random() * 4)]);
+    }
+}
+
+const resetAllButtonsBSClasses = () => {
+    for(let i = 0; i < allButtons.length; i++){
+        allButtons[i].classList.add(buttonsBSClasses[i]);
+    }
+}
+
