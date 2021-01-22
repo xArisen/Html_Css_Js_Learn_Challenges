@@ -266,3 +266,100 @@ const resetAllButtonsBSClasses = () => {
     }
 }
 
+//Challange5
+const randomCardPossiblities = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+const CARDS = {
+    '2': {
+        'value': '2',
+        'img' : './blackjack_assets/images/2.png'
+    },
+    '3': {
+        'value': '3',
+        'img' : './blackjack_assets/images/3.png'
+    },
+    '4': {
+        'value': '4',
+        'img' : './blackjack_assets/images/4.png'
+    },
+    '5': {
+        'value': '5',
+        'img' : './blackjack_assets/images/5.png'
+    },
+    '6': {
+        'value': '6',
+        'img' : './blackjack_assets/images/6.png'
+    },
+    '7': {
+        'value': '7',
+        'img' : './blackjack_assets/images/7.png'
+    },
+    '8': {
+        'value': '8',
+        'img' : './blackjack_assets/images/8.png'
+    },
+    '9': {
+        'value': '9',
+        'img' : './blackjack_assets/images/9.png'
+    },
+    '10': {
+        'value': '10',
+        'img' : './blackjack_assets/images/10.png'
+    },
+    'J':{
+        'value': '10',
+        'img' : './blackjack_assets/images/J.png'
+    },
+    'Q':{
+        'value': '10',
+        'img' : './blackjack_assets/images/Q.png'
+    },
+    'K':{
+        'value': '10',
+        'img' : './blackjack_assets/images/K.png'
+    },
+    'A':{
+        'value': '1',
+        'extraValue': '11',
+        'img' : './blackjack_assets/images/A.png'
+    }
+}
+let playerTurn = true;
+let playerScoreAnchor = document.getElementById('player_score_value');
+
+const onStartChallange5SetUp = () =>{
+    playerScoreAnchor = document.getElementById('player_score_value');
+}
+
+const playBlackjack = () => {
+    if(playerTurn){
+        let randomCard = CARDS[randomCardPossiblities[Math.floor(Math.random()*randomCardPossiblities.length)]];
+        spawnCard(randomCard);
+        addCardToCounter(randomCard);
+    }
+}
+
+const spawnCard = (randomCard) =>{
+let img = document.createElement('img');
+img.setAttribute('src', randomCard.img);
+
+let div = document.createElement('div');
+div.setAttribute('class', 'card')
+div.appendChild(img);
+
+document.getElementById('player_cards').appendChild(div);
+}
+
+//TODO As adds 1 or 11 value
+const addCardToCounter = (randomCard) =>{
+    playerScoreAnchor.innerHTML = Number(playerScoreAnchor.innerHTML) + Number(randomCard.value);
+}
+
+const setComputerTurn = () => {
+    playerTurn = false;
+}
+
+const restartGame = () => {
+    playerTurn = true;
+    playerScoreAnchor.innerHTML = 0;
+    document.getElementById('player_cards').innerHTML = "";
+}
