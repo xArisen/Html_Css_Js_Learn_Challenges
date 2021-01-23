@@ -97,7 +97,7 @@
                 <h2>Challenge 5: Blackjack</h2>
             </div>
 
-            <div class="game_state">
+            <div id="game_state">
                 <h4>Let's play</h1>
             </div>
             
@@ -120,9 +120,6 @@
                                 </h3>
                             </div>
                             <div id="computer_cards">
-                                <div class="card">
-                                    <img src="./blackjack_assets/images/10.png" alt="">
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -130,9 +127,9 @@
                 <div class="box_container">
                     <div id="moves_container">
                         <div id="buttons_container">
-                            <button type="button" class="btn btn-primary" onclick="playBlackjack()">Hit</button>
-                            <button type="button" class="btn btn-warning" onclick="setComputerTurn()">Stand</button>
-                            <button type="button" class="btn btn-danger" onclick="restartGame()">Deal</button>
+                            <button id="hitButton" type="button" class="btn btn-primary" onclick="playBlackjack()">Hit</button>
+                            <button id="standButton" type="button" class="btn btn-warning" onclick="setComputerTurn()">Stand</button>
+                            <button id="dealButton" type="button" class="btn btn-danger" onclick="restartGame()">Deal</button>
                         </div>
                     </div>
                 </div>
@@ -149,9 +146,9 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td id="win_counter">0</td>
+                            <td id="lose_counter">0</td>
+                            <td id="draw_counter">0</td>
                           </tr>
                         </tbody>
                       </table>

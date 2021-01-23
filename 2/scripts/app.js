@@ -324,42 +324,197 @@ const CARDS = {
     }
 }
 let playerTurn = true;
-let playerScoreAnchor = document.getElementById('player_score_value');
+let playerScoreAnchor = "";
+let computerScoreAnchor = "";
+let winCounterAnchor = "";
+let loseCounterAnchor = "";
+let drawCounterAnchor = "";
+
+let gameStateAnchor = "";
+let gameStartTitle = document.createElement('h4');
+let gameWinTitle = document.createElement('h4');
+let gameLoseTitle = document.createElement('h4');
+let gameDrawTitle = document.createElement('h4');
+
+let hitButton = "";
+let standButton = "";
+let dealButton = "";
+
+const cardSpawnSound = './blackjack_assets/sounds/swish.m4a';
+const winSound = './blackjack_assets/sounds/cash.mp3';
+const loseSound = './blackjack_assets/sounds/aww.mp3';
 
 const onStartChallange5SetUp = () =>{
     playerScoreAnchor = document.getElementById('player_score_value');
+    computerScoreAnchor = document.getElementById('computer_score_value');
+    winCounterAnchor = document.getElementById('win_counter');
+    loseCounterAnchor = document.getElementById('lose_counter');
+    drawCounterAnchor = document.getElementById('draw_counter');
+    gameStateAnchor = document.getElementById('game_state');
+
+    let textStartTitle = document.createTextNode("Let's play");
+    gameStartTitle.appendChild(textStartTitle);
+
+    let textWinTitle = document.createTextNode("You won!");
+    gameWinTitle.style.color = 'green';
+    gameWinTitle.appendChild(textWinTitle);
+
+    let textLoseTitle = document.createTextNode("You lost!");
+    gameLoseTitle.style.color = 'red';
+    gameLoseTitle.appendChild(textLoseTitle);
+
+    let textDrawTitle = document.createTextNode("Draw!");
+    gameDrawTitle.appendChild(textDrawTitle);
+
+    hitButton = document.getElementById('hitButton');
+    standButton = document.getElementById('standButton');
+    dealButton = document.getElementById('dealButton');
+
+    restartGame();
 }
 
 const playBlackjack = () => {
+    let randomCard = CARDS[randomCardPossiblities[Math.floor(Math.random()*randomCardPossiblities.length)]];
     if(playerTurn){
-        let randomCard = CARDS[randomCardPossiblities[Math.floor(Math.random()*randomCardPossiblities.length)]];
-        spawnCard(randomCard);
-        addCardToCounter(randomCard);
+        standButton.disabled = false;
+        spawnCardForPlayer(randomCard);
+        addCardToCounter(randomCard, playerScoreAnchor);
+        checkPlayerScore();
+    }
+    else{
+        hitButton.disabled = true;
+        standButton.disabled = true;
+        spawnCardForComputer(randomCard);
+        addCardToCounter(randomCard, computerScoreAnchor);
+        checkComputerScore();
     }
 }
+const createCard = (randomCard) => {
+    let img = document.createElement('img');
+    img.setAttribute('src', randomCard.img);
+    
+    let div = document.createElement('div');
+    div.setAttribute('class', 'card')
+    div.appendChild(img);
 
-const spawnCard = (randomCard) =>{
-let img = document.createElement('img');
-img.setAttribute('src', randomCard.img);
+    return div;
+}
 
-let div = document.createElement('div');
-div.setAttribute('class', 'card')
-div.appendChild(img);
+const spawnCardForPlayer = (randomCard) =>{
+    document.getElementById('player_cards').appendChild(createCard(randomCard));
+    new Audio(cardSpawnSound).play();
+}
 
-document.getElementById('player_cards').appendChild(div);
+const spawnCardForComputer = (randomCard) =>{
+    document.getElementById('computer_cards').appendChild(createCard(randomCard));
+    new Audio(cardSpawnSound).play();
 }
 
 //TODO As adds 1 or 11 value
-const addCardToCounter = (randomCard) =>{
-    playerScoreAnchor.innerHTML = Number(playerScoreAnchor.innerHTML) + Number(randomCard.value);
+const addCardToCounter = (randomCard, scoreAnchor) =>{
+    if(Number(randomCard.value) == 1){
+        if(Number(scoreAnchor.innerHTML) + Number(randomCard.extraValue) <= 21){
+            scoreAnchor.innerHTML = Number(scoreAnchor.innerHTML) + Number(randomCard.extraValue);
+        }
+        else{
+            scoreAnchor.innerHTML = Number(scoreAnchor.innerHTML) + Number(randomCard.value);
+        }
+    }
+    else{
+        scoreAnchor.innerHTML = Number(scoreAnchor.innerHTML) + Number(randomCard.value);
+    }
 }
 
 const setComputerTurn = () => {
     playerTurn = false;
+    playBlackjack();
 }
 
 const restartGame = () => {
     playerTurn = true;
+    restartPlayerTable();
+    restartComputerTable();
+
+    gameStateAnchor.innerHTML = "";
+    gameStateAnchor.appendChild(gameStartTitle);
+
+    hitButton.disabled = false;
+    standButton.disabled = true;
+    dealButton.disabled = true;
+}
+
+const restartPlayerTable = () =>{
     playerScoreAnchor.innerHTML = 0;
+    playerScoreAnchor.style.color = 'white';
     document.getElementById('player_cards').innerHTML = "";
+}
+const restartComputerTable = () => {
+    computerScoreAnchor.innerHTML = 0;
+    computerScoreAnchor.style.color = 'white';
+    document.getElementById('computer_cards').innerHTML = "";
+}
+
+const checkPlayerScore = () => {
+    if(Number(playerScoreAnchor.innerHTML) > 21)
+    {
+        playerScoreAnchor.innerHTML = "BUST";
+        playerScoreAnchor.style.color = 'red';
+        setComputerTurn();
+    }
+    else if(Number(playerScoreAnchor.innerHTML) == 21)
+    {
+        setComputerTurn();
+    }
+}
+
+const checkComputerScore = () => {
+    if(Number(computerScoreAnchor.innerHTML) > 21)
+    {
+        computerScoreAnchor.innerHTML = "BUST";
+        computerScoreAnchor.style.color = 'red';
+        chooseWinner();
+    }
+    else if(Number(computerScoreAnchor.innerHTML) == 21)
+    {
+        chooseWinner();
+    }
+    else if(Number(computerScoreAnchor.innerHTML) < 18){
+        setTimeout(() => {  playBlackjack(); }, 1000);
+    }
+    else{
+        chooseWinner();
+    }
+}
+
+const chooseWinner = () => {
+    if(playerScoreAnchor.innerHTML == computerScoreAnchor.innerHTML){
+        draw();
+    }
+    else if(computerScoreAnchor.innerHTML == "BUST" || (Number(playerScoreAnchor.innerHTML) > Number(computerScoreAnchor.innerHTML))){
+        playerWin();
+    }
+    else{
+        computerWin();
+    }
+    dealButton.disabled = false;
+}
+
+const draw = () => {
+    gameStateAnchor.innerHTML = "";
+    gameStateAnchor.appendChild(gameDrawTitle);
+    drawCounterAnchor.innerHTML = Number(drawCounterAnchor.innerHTML) + 1;
+}
+
+const playerWin = () => {
+    gameStateAnchor.innerHTML = "";
+    gameStateAnchor.appendChild(gameWinTitle);
+    winCounterAnchor.innerHTML = Number(winCounterAnchor.innerHTML) + 1;
+    new Audio(winSound).play();
+}
+
+const computerWin = () => {
+    gameStateAnchor.innerHTML = "";
+    gameStateAnchor.appendChild(gameLoseTitle);
+    loseCounterAnchor.innerHTML = Number(loseCounterAnchor.innerHTML) + 1;
+    new Audio(loseSound).play();
 }
